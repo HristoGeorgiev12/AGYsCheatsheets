@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGY's Cheatsheets – Git & Linux (Минималистичен колонен изглед)</title>
-  <meta name="description" content="Минималистичен и бърз наръчник за Git и Linux команди в колонен формат с копиране при директен клик върху командата.">
+  <title>AGY's Cheatsheets – Git, Linux & PowerShell (Колонен изглед)</title>
+  <meta name="description" content="Минималистичен и бърз наръчник за Git, Linux и Windows PowerShell команди в колонен формат с директно копиране при клик.">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,9 @@
       --primary: #6366f1;
       --git-color: #f05032;
       --linux-color: #06b6d4;
+      --pwsh-color: #3b82f6;
+      --pwsh-bg: rgba(59, 130, 246, 0.12);
+      --pwsh-border: rgba(59, 130, 246, 0.35);
       --emerald: #10b981;
       --text: #f1f5f9;
       --text-muted: #828fa3;
@@ -42,12 +45,13 @@
       line-height: 1.45;
       background-image: 
         radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.08), transparent 40%),
-        radial-gradient(circle at 90% 0%, rgba(6, 182, 212, 0.07), transparent 35%);
+        radial-gradient(circle at 90% 0%, rgba(6, 182, 212, 0.07), transparent 35%),
+        radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.06), transparent 45%);
       background-attachment: fixed;
     }
 
     .app-container {
-      max-width: 1720px;
+      max-width: 1760px;
       margin: 0 auto;
       padding: 1.5rem 1.25rem 3.5rem;
     }
@@ -92,7 +96,7 @@
     .subtitle {
       color: var(--text-muted);
       font-size: 0.95rem;
-      max-width: 580px;
+      max-width: 620px;
     }
 
     /* Minimal Controls Bar */
@@ -101,7 +105,7 @@
       flex-direction: column;
       gap: 0.75rem;
       margin-bottom: 1.75rem;
-      max-width: 960px;
+      max-width: 1040px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -122,6 +126,7 @@
       padding: 0.25rem;
       border-radius: 10px;
       gap: 0.25rem;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -131,7 +136,7 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 0.45rem 1rem;
+      padding: 0.45rem 0.95rem;
       border-radius: 7px;
       font-size: 0.875rem;
       font-weight: 600;
@@ -161,6 +166,12 @@
       background: rgba(6, 182, 212, 0.2);
       color: #38bdf8;
       border: 1px solid rgba(6, 182, 212, 0.35);
+    }
+
+    .tab-btn.active.pwsh-tab {
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
     }
 
     .tab-count {
@@ -258,6 +269,10 @@
       border-top: 2px solid var(--linux-color);
     }
 
+    .column-card.pwsh {
+      border-top: 2px solid var(--pwsh-color);
+    }
+
     /* Column Header */
     .column-header {
       padding: 0.85rem 1rem 0.7rem;
@@ -289,6 +304,11 @@
     .tag-linux {
       background: rgba(6, 182, 212, 0.12);
       color: #38bdf8;
+    }
+
+    .tag-pwsh {
+      background: var(--pwsh-bg);
+      color: #60a5fa;
     }
 
     .column-count-badge {
@@ -368,6 +388,10 @@
 
     .column-card.linux .code-snippet {
       color: #67e8f9;
+    }
+
+    .column-card.pwsh .code-snippet {
+      color: #93c5fd;
     }
 
     /* Subtle Click Indicator (Появява се при hover) */
@@ -474,7 +498,7 @@
       </div>
       <h1 id="app-title">AGY's Cheatsheets</h1>
       <p class="subtitle" id="app-subtitle">
-        Кликнете директно върху която и да е команда за моментално копиране в клипборда.
+        Git, Linux и Windows PowerShell наръчник. Кликнете върху която и да е команда за моментално копиране.
       </p>
     </header>
 
@@ -490,6 +514,10 @@
           <span>Linux</span>
           <span class="tab-count" id="count-linux">0</span>
         </button>
+        <button class="tab-btn pwsh-tab" id="tab-pwsh" onclick="switchCategory('pwsh')" role="tab">
+          <span>PowerShell</span>
+          <span class="tab-count" id="count-pwsh">0</span>
+        </button>
         <button class="tab-btn" id="tab-all" onclick="switchCategory('all')" role="tab">
           <span>Всички</span>
           <span class="tab-count" id="count-all">0</span>
@@ -503,7 +531,7 @@
           type="text" 
           id="search-input" 
           class="search-input" 
-          placeholder="Търси команда или действие... (напр. grep, branch, kill)"
+          placeholder="Търси команда... (напр. Get-Process, branch, grep)"
           autocomplete="off"
         >
         <span class="search-hint">/</span>
@@ -534,7 +562,7 @@
   </div>
 
   <script>
-    // Data definition for Git and Linux commands (Exact same complete information preserved)
+    // Complete Cheatsheet Data for Git, Linux and Windows PowerShell
     const cheatsheetData = [
       // ================= GIT COLUMNS =================
       {
@@ -854,6 +882,178 @@
             note: '-d задава целевата папка.'
           }
         ]
+      },
+
+      // ================= POWERSHELL COLUMNS =================
+      {
+        category: 'pwsh',
+        group: 'Файлове & Навигация (PowerShell)',
+        commands: [
+          {
+            desc: 'Показване на текущата директория',
+            cmd: 'Get-Location',
+            note: 'Алиаси: pwd, gl. Връща текущия път.'
+          },
+          {
+            desc: 'Списък с файлове (вкл. скрити и системни)',
+            cmd: 'Get-ChildItem -Force',
+            note: 'Алиаси: ls, dir, gci. Добавете -Recurse за подпапки.'
+          },
+          {
+            desc: 'Смяна на текущата директория',
+            cmd: 'Set-Location "C:\\Projects"',
+            note: 'Алиаси: cd, sl. Поддържа както обратна, така и права наклонена черта.'
+          },
+          {
+            desc: 'Създаване на нова директория',
+            cmd: 'New-Item -ItemType Directory -Path "new-folder"',
+            note: 'Алиас: mkdir. Създава директорията безопасно.'
+          },
+          {
+            desc: 'Създаване на нов празен файл',
+            cmd: 'New-Item -ItemType File -Path "app.js" -Force',
+            note: 'Еквивалент на Linux командата touch.'
+          },
+          {
+            desc: 'Рекурсивно копиране на папка',
+            cmd: 'Copy-Item -Path .\\src -Destination .\\dist -Recurse -Force',
+            note: 'Алиаси: cp, copy, cpi.'
+          },
+          {
+            desc: 'Принудително рекурсивно изтриване',
+            cmd: 'Remove-Item -Path "folder" -Recurse -Force',
+            note: 'Алиаси: rm, del, rmdir, ri. Еквивалент на rm -rf.'
+          }
+        ]
+      },
+      {
+        category: 'pwsh',
+        group: 'Работа със съдържание & Търсене',
+        commands: [
+          {
+            desc: 'Четене на съдържанието на файл',
+            cmd: 'Get-Content .\\package.json',
+            note: 'Алиаси: cat, gc, type. Чете редовете на файла.'
+          },
+          {
+            desc: 'Следене на логове на живо (Tail -f)',
+            cmd: 'Get-Content .\\app.log -Tail 20 -Wait',
+            note: 'Показва последните 20 реда и следи за нови записи в реално време.'
+          },
+          {
+            desc: 'Търсене на текст във файлове (Grep еквивалент)',
+            cmd: 'Select-String -Path "*.js" -Pattern "apiKey"',
+            note: 'Алиас: sls. Търси по регулярен израз или точен текст.'
+          },
+          {
+            desc: 'Записване/Презаписване на съдържание във файл',
+            cmd: 'Set-Content -Path .\\env.txt -Value "PORT=3000"',
+            note: 'Алиас: sc. Презаписва изцяло съдържанието на файла.'
+          },
+          {
+            desc: 'Добавяне на текст в края на файл (Append >>)',
+            cmd: 'Add-Content -Path .\\env.txt -Value "DEBUG=true"',
+            note: 'Алиас: ac. Добавя нов ред без да трие старото съдържание.'
+          }
+        ]
+      },
+      {
+        category: 'pwsh',
+        group: 'Процеси & Системно управление',
+        commands: [
+          {
+            desc: 'Списък с всички работещи процеси',
+            cmd: 'Get-Process | Sort-Object CPU -Descending | Select-Object -First 10',
+            note: 'Алиаси: ps, gps. Показва топ 10 процеса по натоварване на процесора.'
+          },
+          {
+            desc: 'Намиране на процес по име',
+            cmd: 'Get-Process -Name "node*"',
+            note: 'Филтрира процесите с поддръжка на символи като *.'
+          },
+          {
+            desc: 'Принудително спиране на процес по име',
+            cmd: 'Stop-Process -Name "node" -Force',
+            note: 'Алиаси: kill, spps. Терминира всички инстанции на процеса.'
+          },
+          {
+            desc: 'Спиране на процес по идентификатор (PID)',
+            cmd: 'Stop-Process -Id <PID> -Force',
+            note: 'Терминира конкретен процес по неговия PID номер.'
+          },
+          {
+            desc: 'Списък с инсталираните Windows услуги',
+            cmd: 'Get-Service | Where-Object Status -eq "Running"',
+            note: 'Алиас: gsv. Показва само стартираните услуги в системата.'
+          },
+          {
+            desc: 'Рестартиране на Windows услуга',
+            cmd: 'Restart-Service -Name "wuauserv" -Force',
+            note: 'Изисква администраторски права (Run as Administrator).'
+          }
+        ]
+      },
+      {
+        category: 'pwsh',
+        group: 'Мрежа, Портове & REST API',
+        commands: [
+          {
+            desc: 'Проверка на връзка и порт към сървър',
+            cmd: 'Test-NetConnection -ComputerName google.com -Port 443',
+            note: 'Алиас: tnc. Мощна комбинация от ping и проверка на порт.'
+          },
+          {
+            desc: 'Списък с отворените слушащи TCP портове',
+            cmd: 'Get-NetTCPConnection -State Listen | Select-Object LocalPort, OwningProcess',
+            note: 'Показва кой порт от кой процес (PID) се слуша.'
+          },
+          {
+            desc: 'Извикване на REST API с автоматичен JSON парсинг',
+            cmd: '$res = Invoke-RestMethod -Uri "https://api.github.com"',
+            note: 'Алиас: irm. Директно превръща JSON отговора в PowerShell обект.'
+          },
+          {
+            desc: 'Сваляне на файл от уеб адрес (Wget/Curl)',
+            cmd: 'Invoke-WebRequest -Uri "<url>" -OutFile "installer.exe"',
+            note: 'Алиас: iwr, curl, wget. Сваля файла на посочения диск.'
+          },
+          {
+            desc: 'Показване на локалните IP адреси',
+            cmd: 'Get-NetIPAddress -AddressFamily IPv4 | Select-Object IPAddress, InterfaceAlias',
+            note: 'Бърз преглед на активните мрежови карти и IPv4 адреси.'
+          }
+        ]
+      },
+      {
+        category: 'pwsh',
+        group: 'Пакети, Скриптове & Администрация',
+        commands: [
+          {
+            desc: 'Инсталиране на програма чрез Windows Package Manager',
+            cmd: 'winget install Git.Git -e --source winget',
+            note: 'Официалният мениджър на пакети на Windows 10/11.'
+          },
+          {
+            desc: 'Разрешаване на изпълнение на локални скриптове',
+            cmd: 'Set-ExecutionPolicy RemoteSigned -Scope CurrentUser',
+            note: 'Позволява стартиране на локални .ps1 скриптове без блокиране.'
+          },
+          {
+            desc: 'Стартиране на нов PowerShell като Администратор',
+            cmd: 'Start-Process powershell -Verb RunAs',
+            note: 'Отваря прозорец с пълни администраторски права.'
+          },
+          {
+            desc: 'Преглед на променливите на средата (Environment)',
+            cmd: 'Get-ChildItem Env: | Sort-Object Name',
+            note: 'Показва всички системни и потребителски променливи (PATH и др.).'
+          },
+          {
+            desc: 'Измерване на времето за изпълнение на команда',
+            cmd: 'Measure-Command { git status }',
+            note: 'Прецизно измерва продължителността в милисекунди.'
+          }
+        ]
       }
     ];
 
@@ -865,15 +1065,18 @@
     function updateCounts() {
       let gitCount = 0;
       let linuxCount = 0;
+      let pwshCount = 0;
 
       cheatsheetData.forEach(group => {
         if (group.category === 'git') gitCount += group.commands.length;
         if (group.category === 'linux') linuxCount += group.commands.length;
+        if (group.category === 'pwsh') pwshCount += group.commands.length;
       });
 
       document.getElementById('count-git').textContent = gitCount;
       document.getElementById('count-linux').textContent = linuxCount;
-      document.getElementById('count-all').textContent = gitCount + linuxCount;
+      document.getElementById('count-pwsh').textContent = pwshCount;
+      document.getElementById('count-all').textContent = gitCount + linuxCount + pwshCount;
     }
 
     // Render Columns Board
@@ -908,8 +1111,16 @@
         const colCard = document.createElement('div');
         colCard.className = `column-card ${section.category}`;
         
-        const tagClass = section.category === 'git' ? 'tag-git' : 'tag-linux';
-        const tagLabel = section.category === 'git' ? 'GIT' : 'LINUX';
+        let tagClass = 'tag-git';
+        let tagLabel = 'GIT';
+
+        if (section.category === 'linux') {
+          tagClass = 'tag-linux';
+          tagLabel = 'LINUX';
+        } else if (section.category === 'pwsh') {
+          tagClass = 'tag-pwsh';
+          tagLabel = 'POWERSHELL';
+        }
 
         colCard.innerHTML = `
           <div class="column-header">
