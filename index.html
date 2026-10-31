@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGY's Cheatsheets – Git & Linux Команди</title>
-  <meta name="description" content="Бърз визуален наръчник (cheatsheet) за Git и Linux команди с моментално търсене и копиране с един клик.">
+  <title>AGY's Cheatsheets – Git & Linux Команди (Колонен изглед)</title>
+  <meta name="description" content="Визуален наръчник за Git и Linux команди в колонен формат (board view) с моментално търсене и бързо копиране.">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,21 +13,25 @@
 
   <style>
     :root {
-      --bg: #0a0d14;
+      --bg: #090c13;
       --surface: #111726;
-      --surface-hover: #172033;
+      --surface-hover: #161e31;
+      --surface-inner: #0b0f19;
       --border: rgba(255, 255, 255, 0.08);
       --border-accent: rgba(99, 102, 241, 0.4);
       --primary: #6366f1;
       --primary-hover: #4f46e5;
       --cyan: #06b6d4;
       --emerald: #10b981;
-      --amber: #f59e0b;
+      --git-color: #f05032;
+      --git-bg: rgba(240, 80, 50, 0.12);
+      --git-border: rgba(240, 80, 50, 0.3);
+      --linux-color: #06b6d4;
+      --linux-bg: rgba(6, 182, 212, 0.12);
+      --linux-border: rgba(6, 182, 212, 0.3);
       --text: #f3f4f6;
       --text-muted: #94a3b8;
-      --code-bg: #07090e;
-      --glow-git: rgba(240, 80, 50, 0.15);
-      --glow-linux: rgba(6, 182, 212, 0.15);
+      --code-bg: #06080e;
     }
 
     * {
@@ -43,22 +47,22 @@
       min-height: 100vh;
       line-height: 1.5;
       background-image: 
-        radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.12), transparent 45%),
-        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.10), transparent 40%),
-        radial-gradient(circle at 50% 90%, rgba(240, 80, 50, 0.08), transparent 50%);
+        radial-gradient(circle at 10% 5%, rgba(99, 102, 241, 0.12), transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(6, 182, 212, 0.10), transparent 40%),
+        radial-gradient(circle at 50% 95%, rgba(240, 80, 50, 0.08), transparent 50%);
       background-attachment: fixed;
     }
 
-    /* Container */
+    /* Container: Wide for multi-column board */
     .app-container {
-      max-width: 1300px;
+      max-width: 1700px;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 2rem 1.5rem 4rem;
     }
 
     /* Header */
     header {
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       text-align: center;
     }
 
@@ -71,11 +75,11 @@
       background: rgba(99, 102, 241, 0.12);
       border: 1px solid rgba(99, 102, 241, 0.3);
       color: #a5b4fc;
-      font-size: 0.825rem;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     .badge-dot {
@@ -87,10 +91,10 @@
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
       font-weight: 700;
       letter-spacing: -0.02em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -98,18 +102,18 @@
 
     .subtitle {
       color: var(--text-muted);
-      font-size: 1.1rem;
-      max-width: 620px;
-      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto 1.75rem;
     }
 
     /* Controls Bar: Search & Category Tabs */
     .controls-bar {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
-      max-width: 900px;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+      max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -125,7 +129,7 @@
     /* Tabs */
     .tabs-wrapper {
       display: inline-flex;
-      background: rgba(17, 23, 38, 0.8);
+      background: rgba(17, 23, 38, 0.85);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border);
       padding: 0.35rem;
@@ -136,11 +140,11 @@
     .tab-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.55rem;
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 0.65rem 1.4rem;
+      padding: 0.6rem 1.3rem;
       border-radius: 10px;
       font-size: 0.95rem;
       font-weight: 600;
@@ -162,7 +166,7 @@
     }
 
     .tab-btn.active.git-tab {
-      background: #f05032;
+      background: var(--git-color);
       box-shadow: 0 4px 16px rgba(240, 80, 50, 0.4);
     }
 
@@ -188,7 +192,7 @@
     .search-box {
       position: relative;
       flex: 1;
-      max-width: 450px;
+      max-width: 480px;
     }
 
     .search-input {
@@ -233,136 +237,158 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Section Headers */
-    .section-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text);
-      margin: 2.5rem 0 1.25rem;
+    /* ========================================================
+       COLUMN BOARD LAYOUT (КОЛОНЕН ДИЗАЙН)
+       ======================================================== */
+    .columns-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (min-width: 1400px) {
+      .columns-board {
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      }
+    }
+
+    /* Single Column Container */
+    .column-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .column-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Top accent bar for each column */
+    .column-card.git {
+      border-top: 3px solid var(--git-color);
+    }
+
+    .column-card.linux {
+      border-top: 3px solid var(--linux-color);
+    }
+
+    /* Column Header */
+    .column-header {
+      padding: 1.25rem 1.4rem 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .column-header-top {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
     }
 
-    .section-title:first-of-type {
-      margin-top: 1rem;
+    .column-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    .section-pill {
-      font-size: 0.8rem;
-      font-weight: 500;
+    .tag-git {
+      background: var(--git-bg);
+      color: #ff7a60;
+      border: 1px solid var(--git-border);
+    }
+
+    .tag-linux {
+      background: var(--linux-bg);
+      color: #38bdf8;
+      border: 1px solid var(--linux-border);
+    }
+
+    .column-count-badge {
+      font-size: 0.75rem;
       color: var(--text-muted);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       padding: 0.2rem 0.6rem;
       border-radius: 9999px;
+      font-weight: 500;
     }
 
-    /* Cards Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.25rem;
+    .column-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
     }
 
-    @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Cheatsheet Card */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.25rem;
+    /* Column Body: Items Stacked Vertically */
+    .column-body {
+      padding: 1rem 1.15rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
+      gap: 0.9rem;
     }
 
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .card.git:hover {
-      border-color: rgba(240, 80, 50, 0.4);
-      box-shadow: 0 8px 30px var(--glow-git);
-    }
-
-    .card.linux:hover {
-      border-color: rgba(6, 182, 212, 0.4);
-      box-shadow: 0 8px 30px var(--glow-linux);
-    }
-
-    .card-header {
+    /* Command Item Inside Column */
+    .cmd-item {
+      background: var(--surface-inner);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.95rem;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: all 0.2s ease;
     }
 
-    .card-desc {
-      font-size: 0.95rem;
+    .cmd-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: #0f1422;
+      transform: translateY(-1px);
+    }
+
+    .cmd-desc {
+      font-size: 0.9rem;
       font-weight: 500;
-      color: var(--text);
-      line-height: 1.4;
+      color: #e2e8f0;
+      line-height: 1.35;
     }
 
-    .card-tag {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.2rem 0.5rem;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      flex-shrink: 0;
-    }
-
-    .tag-git {
-      background: rgba(240, 80, 50, 0.15);
-      color: #ff7a60;
-      border: 1px solid rgba(240, 80, 50, 0.3);
-    }
-
-    .tag-linux {
-      background: rgba(6, 182, 212, 0.15);
-      color: #38bdf8;
-      border: 1px solid rgba(6, 182, 212, 0.3);
-    }
-
-    /* Code Box with Copy Button */
-    .code-container {
+    /* Code Box with integrated Copy Button */
+    .code-box {
       background: var(--code-bg);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      padding: 0.7rem 0.9rem;
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: 0.6rem;
       font-family: 'Fira Code', monospace;
-      margin-top: auto;
     }
 
-    .code-text {
-      color: #38bdf8;
-      font-size: 0.875rem;
+    .code-snippet {
+      font-size: 0.825rem;
       word-break: break-all;
       user-select: all;
     }
 
-    .card.git .code-text {
+    .column-card.git .code-snippet {
       color: #fca5a5;
     }
 
-    .card.linux .code-text {
+    .column-card.linux .code-snippet {
       color: #67e8f9;
     }
 
@@ -371,14 +397,14 @@
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
       color: var(--text-muted);
-      border-radius: 8px;
-      padding: 0.4rem 0.65rem;
-      font-size: 0.8rem;
+      border-radius: 6px;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.75rem;
       font-family: inherit;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
@@ -390,17 +416,17 @@
     }
 
     .copy-btn.copied {
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.25);
       border-color: #10b981;
       color: #34d399;
     }
 
-    /* Card Details / Note */
-    .card-note {
-      font-size: 0.8rem;
+    /* Card Note */
+    .cmd-note {
+      font-size: 0.775rem;
       color: var(--text-muted);
-      margin-top: 0.5rem;
-      line-height: 1.35;
+      line-height: 1.3;
+      padding-left: 0.2rem;
     }
 
     /* Empty Search State */
@@ -409,11 +435,12 @@
       padding: 4rem 1rem;
       color: var(--text-muted);
       display: none;
+      grid-column: 1 / -1;
     }
 
     .no-results-icon {
       font-size: 3rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       opacity: 0.6;
     }
 
@@ -446,7 +473,7 @@
     /* Footer */
     footer {
       text-align: center;
-      margin-top: 5rem;
+      margin-top: 4.5rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
       color: var(--text-muted);
@@ -470,11 +497,11 @@
     <header>
       <div class="badge">
         <span class="badge-dot"></span>
-        <span>Developer Quick Reference</span>
+        <span>Developer Column Cheatsheet</span>
       </div>
       <h1 id="app-title">AGY's Cheatsheets</h1>
       <p class="subtitle" id="app-subtitle">
-        Интерактивен наръчник за най-важните Git и Linux команди. Натиснете бутона за бързо копиране директно в клипборда.
+        Бърз визуален наръчник за Git и Linux в колонен изглед. Намерете нужната група команди и копирайте с 1 клик.
       </p>
     </header>
 
@@ -506,15 +533,15 @@
           type="text" 
           id="search-input" 
           class="search-input" 
-          placeholder="Търси команда или действие... (напр. branch, kill, push)"
+          placeholder="Търси команда или действие... (напр. grep, push, chmod)"
           autocomplete="off"
         >
         <span class="search-hint">/</span>
       </div>
     </div>
 
-    <!-- Cheatsheet Content Container -->
-    <main id="cheatsheets-container">
+    <!-- Cheatsheet Board (Columns Grid) -->
+    <main id="cheatsheets-container" class="columns-board">
       <!-- Dynamic rendering via JS -->
     </main>
 
@@ -526,7 +553,7 @@
     </div>
 
     <footer>
-      <p>Проектът се поддържа и обновява автоматично в <a href="https://github.com/HristoGeorgiev12/AGYsCheatsheets" target="_blank" rel="noopener">GitHub: HristoGeorgiev12/AGYsCheatsheets</a></p>
+      <p>Проектът се поддържа и деплойва автоматично в <a href="https://github.com/HristoGeorgiev12/AGYsCheatsheets" target="_blank" rel="noopener">GitHub: HristoGeorgiev12/AGYsCheatsheets</a></p>
     </footer>
   </div>
 
@@ -539,7 +566,7 @@
   <script>
     // Data definition for Git and Linux commands
     const cheatsheetData = [
-      // ================= GIT COMMANDS =================
+      // ================= GIT COLUMNS =================
       {
         category: 'git',
         group: 'Начални настройки & Инициализация',
@@ -568,7 +595,7 @@
       },
       {
         category: 'git',
-        group: 'Основен работен цикъл (Staging & Commits)',
+        group: 'Основен работен цикъл (Stage & Commit)',
         commands: [
           {
             desc: 'Проверка на статуса на файловете',
@@ -630,7 +657,7 @@
       },
       {
         category: 'git',
-        group: 'Синхронизация с отдалечено хранилище (Remote)',
+        group: 'Синхронизация с Remote (GitHub)',
         commands: [
           {
             desc: 'Изпращане на промените към отдалечения клон',
@@ -661,7 +688,7 @@
       },
       {
         category: 'git',
-        group: 'Отмяна на промени & Скривалище (Stash)',
+        group: 'Отмяна на промени & Stash',
         commands: [
           {
             desc: 'Временно запазване на незавършени промени',
@@ -691,7 +718,7 @@
         ]
       },
 
-      // ================= LINUX COMMANDS =================
+      // ================= LINUX COLUMNS =================
       {
         category: 'linux',
         group: 'Файлова система & Навигация',
@@ -702,22 +729,22 @@
             note: 'Print Working Directory – пълен път до папката.'
           },
           {
-            desc: 'Подробен списък с файлове (вкл. скрити файлове)',
+            desc: 'Подробен списък с файлове (вкл. скрити)',
             cmd: 'ls -lah',
             note: '-l (дълъг формат), -a (всички), -h (четими размери).'
           },
           {
-            desc: 'Създаване на директории и липсващи родителски папки',
+            desc: 'Създаване на директории и родителски папки',
             cmd: 'mkdir -p path/to/new/folder',
             note: '-p създава цялото дърво от директории без грешка.'
           },
           {
-            desc: 'Принудително рекурсивно изтриване на файл или папка',
+            desc: 'Принудително рекурсивно изтриване',
             cmd: 'rm -rf <file-or-dir>',
             note: 'Внимание: изтрива перманентно без потвърждение.'
           },
           {
-            desc: 'Копиране на папка заедно с цялото съдържание',
+            desc: 'Копиране на папка с цялото съдържание',
             cmd: 'cp -r source/ destination/',
             note: '-r обозначава рекурсивно копиране.'
           },
@@ -730,7 +757,7 @@
       },
       {
         category: 'linux',
-        group: 'Преглед & Търсене в файлове',
+        group: 'Преглед & Търсене във файлове',
         commands: [
           {
             desc: 'Преглед на съдържанието на файл',
@@ -745,7 +772,7 @@
           {
             desc: 'Рекурсивно търсене на текст във файлове',
             cmd: 'grep -rn "търсен_текст" .',
-            note: '-r (рекурсивно), -n (номер на реда). Изключително полезно!'
+            note: '-r (рекурсивно), -n (номер на реда).'
           },
           {
             desc: 'Търсене на файлове по име в системата',
@@ -759,7 +786,7 @@
         group: 'Права за достъп & Собственост',
         commands: [
           {
-            desc: 'Правене на файл изпълним (execute permission)',
+            desc: 'Правене на файл изпълним (execute)',
             cmd: 'chmod +x <script.sh>',
             note: 'Позволява стартирането на bash/python скриптове.'
           },
@@ -769,7 +796,7 @@
             note: 'Собственикът чете/пише/изпълнява, останалите само четат.'
           },
           {
-            desc: 'Промяна на собственика и групата на папка',
+            desc: 'Промяна на собственика и групата',
             cmd: 'chown -R www-data:www-data /var/www/html',
             note: 'Често се ползва за права при уеб сървъри (Nginx/Apache).'
           }
@@ -780,7 +807,7 @@
         group: 'Процеси, Памет & Системни ресурси',
         commands: [
           {
-            desc: 'Интерактивен мониторинг на процеси и ресурси',
+            desc: 'Интерактивен мониторинг на ресурси',
             cmd: 'htop',
             note: 'Цветен и удобен мениджър на процеси (алтернатива: top).'
           },
@@ -811,17 +838,17 @@
         group: 'Мрежа, Портове & Сървърни услуги',
         commands: [
           {
-            desc: 'Проверка на отворените портове и процесите им',
+            desc: 'Проверка на отворените портове и процеси',
             cmd: 'ss -tulpn',
             note: 'Модерна и бърза алтернатива на старата команда netstat.'
           },
           {
-            desc: 'Изпращане на HTTP заявка и инспектиране на хедъри',
+            desc: 'HTTP заявка и инспектиране на хедъри',
             cmd: 'curl -I https://example.com',
             note: '-I връща само HTTP отговора и статус кода.'
           },
           {
-            desc: 'Свързване чрез защитен SSH шел към отдалечен сървър',
+            desc: 'Защитен SSH шел към отдалечен сървър',
             cmd: 'ssh username@server_ip',
             note: 'Може да подадете ключ с параметър -i ~/.ssh/id_rsa.'
           },
@@ -879,7 +906,7 @@
       document.getElementById('count-all').textContent = gitCount + linuxCount;
     }
 
-    // Render Cards
+    // Render Columns Board
     function renderCheatsheets() {
       const container = document.getElementById('cheatsheets-container');
       const noResults = document.getElementById('no-results');
@@ -907,51 +934,48 @@
 
         totalVisible += filteredCommands.length;
 
-        // Create Section Element
-        const sectionElem = document.createElement('section');
-        sectionElem.innerHTML = `
-          <h2 class="section-title">
-            <span>${section.group}</span>
-            <span class="section-pill">${filteredCommands.length}</span>
-          </h2>
-          <div class="grid"></div>
+        // Create Column Element
+        const colCard = document.createElement('div');
+        colCard.className = `column-card ${section.category}`;
+        
+        const tagClass = section.category === 'git' ? 'tag-git' : 'tag-linux';
+        const tagLabel = section.category === 'git' ? 'GIT' : 'LINUX';
+
+        colCard.innerHTML = `
+          <div class="column-header">
+            <div class="column-header-top">
+              <span class="column-tag ${tagClass}">${tagLabel}</span>
+              <span class="column-count-badge">${filteredCommands.length} ${filteredCommands.length === 1 ? 'команда' : 'команди'}</span>
+            </div>
+            <h2 class="column-title">${escapeHtml(section.group)}</h2>
+          </div>
+          <div class="column-body"></div>
         `;
 
-        const gridElem = sectionElem.querySelector('.grid');
+        const columnBody = colCard.querySelector('.column-body');
 
         filteredCommands.forEach(item => {
-          const card = document.createElement('div');
-          card.className = `card ${section.category}`;
-          
-          const tagClass = section.category === 'git' ? 'tag-git' : 'tag-linux';
-          const tagLabel = section.category === 'git' ? 'GIT' : 'LINUX';
+          const itemElem = document.createElement('div');
+          itemElem.className = 'cmd-item';
 
-          // Escape HTML for safe display
           const safeCmd = escapeHtml(item.cmd);
 
-          card.innerHTML = `
-            <div>
-              <div class="card-header">
-                <span class="card-desc">${escapeHtml(item.desc)}</span>
-                <span class="card-tag ${tagClass}">${tagLabel}</span>
-              </div>
+          itemElem.innerHTML = `
+            <div class="cmd-desc">${escapeHtml(item.desc)}</div>
+            <div class="code-box">
+              <code class="code-snippet">${safeCmd}</code>
+              <button class="copy-btn" onclick="copyCode(this, '${escapeForAttribute(item.cmd)}')" title="Копирай командата">
+                <span>📋</span>
+                <span>Копирай</span>
+              </button>
             </div>
-            <div>
-              <div class="code-container">
-                <code class="code-text">${safeCmd}</code>
-                <button class="copy-btn" onclick="copyCode(this, '${escapeForAttribute(item.cmd)}')" title="Копирай командата">
-                  <span>📋</span>
-                  <span>Копирай</span>
-                </button>
-              </div>
-              ${item.note ? `<div class="card-note">${escapeHtml(item.note)}</div>` : ''}
-            </div>
+            ${item.note ? `<div class="cmd-note">${escapeHtml(item.note)}</div>` : ''}
           `;
 
-          gridElem.appendChild(card);
+          columnBody.appendChild(itemElem);
         });
 
-        container.appendChild(sectionElem);
+        container.appendChild(colCard);
       });
 
       if (totalVisible === 0) {
@@ -975,7 +999,6 @@
     // Copy to Clipboard
     function copyCode(btn, text) {
       navigator.clipboard.writeText(text).then(() => {
-        // UI feedback on button
         const originalHtml = btn.innerHTML;
         btn.classList.add('copied');
         btn.innerHTML = '<span>✓</span><span>Копирано!</span>';
