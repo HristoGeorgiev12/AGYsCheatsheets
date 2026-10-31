@@ -3,19 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Моят Уебсайт</title>
+  <title>AGY's Cheatsheets – Git & Linux Команди</title>
+  <meta name="description" content="Бърз визуален наръчник (cheatsheet) за Git и Linux команди с моментално търсене и копиране с един клик.">
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --bg: #0a0d14;
+      --surface: #111726;
+      --surface-hover: #172033;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.4);
       --primary: #6366f1;
-      --primary-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+      --primary-hover: #4f46e5;
+      --cyan: #06b6d4;
+      --emerald: #10b981;
+      --amber: #f59e0b;
       --text: #f3f4f6;
-      --text-muted: #9ca3af;
+      --text-muted: #94a3b8;
+      --code-bg: #07090e;
+      --glow-git: rgba(240, 80, 50, 0.15);
+      --glow-linux: rgba(6, 182, 212, 0.15);
     }
 
     * {
@@ -25,128 +37,1015 @@
     }
 
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      line-height: 1.5;
       background-image: 
-        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15), transparent 40%);
+        radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.12), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.10), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(240, 80, 50, 0.08), transparent 50%);
+      background-attachment: fixed;
     }
 
-    .container {
-      max-width: 650px;
-      width: 100%;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 3rem 2.5rem;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    /* Container */
+    .app-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 2.5rem;
       text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .container:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 25px 60px rgba(99, 102, 241, 0.2);
-    }
-
-    .status-badge {
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.4rem 1rem;
+      padding: 0.35rem 0.9rem;
       border-radius: 9999px;
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      font-size: 0.875rem;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      font-size: 0.825rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
-      border: 1px solid rgba(52, 211, 153, 0.2);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
     }
 
-    .pulse {
-      width: 8px;
-      height: 8px;
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      background: #6366f1;
       border-radius: 50%;
-      background-color: #34d399;
-      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
-      animation: pulse-ring 1.8s infinite;
-    }
-
-    @keyframes pulse-ring {
-      0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+      box-shadow: 0 0 8px #6366f1;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #ffffff, #c7d2fe);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    p {
+    .subtitle {
       color: var(--text-muted);
       font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
+      max-width: 620px;
+      margin: 0 auto 2rem;
     }
 
-    .btn {
+    /* Controls Bar: Search & Category Tabs */
+    .controls-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 768px) {
+      .controls-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    /* Tabs */
+    .tabs-wrapper {
+      display: inline-flex;
+      background: rgba(17, 23, 38, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      padding: 0.35rem;
+      border-radius: 14px;
+      gap: 0.35rem;
+    }
+
+    .tab-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--primary-gradient);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.85rem 1.8rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
-      transition: all 0.25s ease;
-      cursor: pointer;
+      gap: 0.6rem;
+      background: transparent;
       border: none;
-      font-size: 1rem;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
-    }
-
-    .footer {
-      margin-top: 2.5rem;
-      font-size: 0.85rem;
       color: var(--text-muted);
-      border-top: 1px solid var(--card-border);
-      padding-top: 1.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      background: var(--primary);
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .tab-btn.active.git-tab {
+      background: #f05032;
+      box-shadow: 0 4px 16px rgba(240, 80, 50, 0.4);
+    }
+
+    .tab-btn.active.linux-tab {
+      background: #0891b2;
+      box-shadow: 0 4px 16px rgba(8, 145, 178, 0.4);
+    }
+
+    .tab-icon {
+      font-size: 1.1rem;
+      display: inline-flex;
+    }
+
+    .tab-count {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: 500;
+    }
+
+    /* Search Box */
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 450px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(17, 23, 38, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: 0.95rem;
+    }
+
+    .search-hint {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.4rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2.5rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-title:first-of-type {
+      margin-top: 1rem;
+    }
+
+    .section-pill {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cheatsheet Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .card.git:hover {
+      border-color: rgba(240, 80, 50, 0.4);
+      box-shadow: 0 8px 30px var(--glow-git);
+    }
+
+    .card.linux:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      box-shadow: 0 8px 30px var(--glow-linux);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .tag-git {
+      background: rgba(240, 80, 50, 0.15);
+      color: #ff7a60;
+      border: 1px solid rgba(240, 80, 50, 0.3);
+    }
+
+    .tag-linux {
+      background: rgba(6, 182, 212, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    /* Code Box with Copy Button */
+    .code-container {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-family: 'Fira Code', monospace;
+      margin-top: auto;
+    }
+
+    .code-text {
+      color: #38bdf8;
+      font-size: 0.875rem;
+      word-break: break-all;
+      user-select: all;
+    }
+
+    .card.git .code-text {
+      color: #fca5a5;
+    }
+
+    .card.linux .code-text {
+      color: #67e8f9;
+    }
+
+    /* Copy Button */
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 8px;
+      padding: 0.4rem 0.65rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #34d399;
+    }
+
+    /* Card Details / Note */
+    .card-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      line-height: 1.35;
+    }
+
+    /* Empty Search State */
+    .no-results {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      display: none;
+    }
+
+    .no-results-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: #ffffff;
+      padding: 0.75rem 1.4rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <div class="status-badge">
-      <span class="pulse"></span>
-      <span>Сайтът е активен и готов</span>
+
+  <div class="app-container">
+    <header>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Developer Quick Reference</span>
+      </div>
+      <h1 id="app-title">AGY's Cheatsheets</h1>
+      <p class="subtitle" id="app-subtitle">
+        Интерактивен наръчник за най-важните Git и Linux команди. Натиснете бутона за бързо копиране директно в клипборда.
+      </p>
+    </header>
+
+    <!-- Controls Bar -->
+    <div class="controls-bar">
+      <!-- Tabs -->
+      <div class="tabs-wrapper" role="tablist">
+        <button class="tab-btn active git-tab" id="tab-git" onclick="switchCategory('git')" role="tab">
+          <span class="tab-icon">🌱</span>
+          <span>Git</span>
+          <span class="tab-count" id="count-git">0</span>
+        </button>
+        <button class="tab-btn linux-tab" id="tab-linux" onclick="switchCategory('linux')" role="tab">
+          <span class="tab-icon">🐧</span>
+          <span>Linux</span>
+          <span class="tab-count" id="count-linux">0</span>
+        </button>
+        <button class="tab-btn" id="tab-all" onclick="switchCategory('all')" role="tab">
+          <span class="tab-icon">⚡</span>
+          <span>Всички</span>
+          <span class="tab-count" id="count-all">0</span>
+        </button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="search-input" 
+          class="search-input" 
+          placeholder="Търси команда или действие... (напр. branch, kill, push)"
+          autocomplete="off"
+        >
+        <span class="search-hint">/</span>
+      </div>
     </div>
-    <h1 id="main-title">Добре дошли в новия ви уебсайт</h1>
-    <p id="main-desc">Този сайт е свързан с автоматичен деплой към GitHub Pages. Всяка промяна, която поискате, се публикува на живо автоматично.</p>
-    <button class="btn" id="action-btn" onclick="alert('Връзката работи успешно!')">Тест бутон</button>
-    <div class="footer">
-      <span>Автоматизирано с Antigravity AI & GitHub Pages</span>
+
+    <!-- Cheatsheet Content Container -->
+    <main id="cheatsheets-container">
+      <!-- Dynamic rendering via JS -->
+    </main>
+
+    <!-- Empty Results Container -->
+    <div id="no-results" class="no-results">
+      <div class="no-results-icon">🔎</div>
+      <h3>Няма намерени команди</h3>
+      <p>Опитайте с друго търсене или изчистете филтъра.</p>
     </div>
-  </main>
+
+    <footer>
+      <p>Проектът се поддържа и обновява автоматично в <a href="https://github.com/HristoGeorgiev12/AGYsCheatsheets" target="_blank" rel="noopener">GitHub: HristoGeorgiev12/AGYsCheatsheets</a></p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span>✓</span>
+    <span id="toast-msg">Командата е копирана!</span>
+  </div>
+
+  <script>
+    // Data definition for Git and Linux commands
+    const cheatsheetData = [
+      // ================= GIT COMMANDS =================
+      {
+        category: 'git',
+        group: 'Начални настройки & Инициализация',
+        commands: [
+          {
+            desc: 'Инициализиране на ново празно Git хранилище',
+            cmd: 'git init',
+            note: 'Създава скрита папка .git в текущата директория.'
+          },
+          {
+            desc: 'Клониране на отдалечено хранилище',
+            cmd: 'git clone <repo-url>',
+            note: 'Сваля пълното копие на отдалечения проект локално.'
+          },
+          {
+            desc: 'Задаване на потребителско име (глобално)',
+            cmd: 'git config --global user.name "Вашето Име"',
+            note: 'Записва се във вашия ~/.gitconfig файл.'
+          },
+          {
+            desc: 'Задаване на имейл за компитите (глобално)',
+            cmd: 'git config --global user.email "email@example.com"',
+            note: 'Важно за коректното асоцииране в GitHub/GitLab.'
+          }
+        ]
+      },
+      {
+        category: 'git',
+        group: 'Основен работен цикъл (Staging & Commits)',
+        commands: [
+          {
+            desc: 'Проверка на статуса на файловете',
+            cmd: 'git status',
+            note: 'Показва променените, добавените и неотследените файлове.'
+          },
+          {
+            desc: 'Добавяне на всички промени към stage зоната',
+            cmd: 'git add .',
+            note: 'Подготвя всички промени за следващия commit.'
+          },
+          {
+            desc: 'Запазване на промените с кратко съобщение',
+            cmd: 'git commit -m "Описание на промените"',
+            note: 'Създава нова контролна точка в историята.'
+          },
+          {
+            desc: 'Добавяне и записване в една стъпка',
+            cmd: 'git commit -am "Бърз commit"',
+            note: 'Работи само за вече отследени модифицирани файлове.'
+          },
+          {
+            desc: 'Преглед на разликите спрямо последния commit',
+            cmd: 'git diff',
+            note: 'Показва точните редове с добавено/изтрито съдържание.'
+          }
+        ]
+      },
+      {
+        category: 'git',
+        group: 'Клонове (Branches) & Сливане',
+        commands: [
+          {
+            desc: 'Създаване и превключване към нов клон',
+            cmd: 'git checkout -b <branch-name>',
+            note: 'Или по-новият синтаксис: git switch -c <branch-name>'
+          },
+          {
+            desc: 'Списък с всички съществуващи клонове',
+            cmd: 'git branch -a',
+            note: 'Показва както локалните, така и remote клоновете.'
+          },
+          {
+            desc: 'Превключване към съществуващ клон',
+            cmd: 'git checkout <branch-name>',
+            note: 'Или алтернативно: git switch <branch-name>'
+          },
+          {
+            desc: 'Сливане на клон в текущия клон',
+            cmd: 'git merge <branch-name>',
+            note: 'Интегрира промените от посочения клон.'
+          },
+          {
+            desc: 'Изтриване на вече слят локален клон',
+            cmd: 'git branch -d <branch-name>',
+            note: 'Използвайте -D за принудително изтриване без проверка.'
+          }
+        ]
+      },
+      {
+        category: 'git',
+        group: 'Синхронизация с отдалечено хранилище (Remote)',
+        commands: [
+          {
+            desc: 'Изпращане на промените към отдалечения клон',
+            cmd: 'git push origin <branch-name>',
+            note: 'Използвайте -u първия път, за да свържете клона.'
+          },
+          {
+            desc: 'Сваляне и обединяване на промените от отдалечения клон',
+            cmd: 'git pull origin <branch-name>',
+            note: 'Еквивалент на git fetch последван от git merge.'
+          },
+          {
+            desc: 'Сваляне на промените без автоматично сливане',
+            cmd: 'git fetch origin',
+            note: 'Безопасно инспектиране на промените от екипа.'
+          },
+          {
+            desc: 'Преглед на настроените отдалечени адреси',
+            cmd: 'git remote -v',
+            note: 'Показва URL адресите за fetch и push.'
+          },
+          {
+            desc: 'Добавяне на нов отдалечен адрес (origin)',
+            cmd: 'git remote add origin <repo-url>',
+            note: 'Свързва локалното хранилище с GitHub/GitLab.'
+          }
+        ]
+      },
+      {
+        category: 'git',
+        group: 'Отмяна на промени & Скривалище (Stash)',
+        commands: [
+          {
+            desc: 'Временно запазване на незавършени промени',
+            cmd: 'git stash',
+            note: 'Изчиства работната папка и запазва кода за по-късно.'
+          },
+          {
+            desc: 'Възстановяване на запазените със stash промени',
+            cmd: 'git stash pop',
+            note: 'Връща последните скрити промени и ги маха от списъка.'
+          },
+          {
+            desc: 'Отмяна на промените в конкретен файл',
+            cmd: 'git restore <file>',
+            note: 'Връща файла до състоянието му от последния commit.'
+          },
+          {
+            desc: 'Красива история на компитите в един ред',
+            cmd: 'git log --oneline --graph --decorate',
+            note: 'Визуализира дървото от клонове и компити.'
+          },
+          {
+            desc: 'Поправка на съобщението на последния commit',
+            cmd: 'git commit --amend -m "Ново съобщение"',
+            note: 'Презаписва последния локален commit.'
+          }
+        ]
+      },
+
+      // ================= LINUX COMMANDS =================
+      {
+        category: 'linux',
+        group: 'Файлова система & Навигация',
+        commands: [
+          {
+            desc: 'Показване на текущата работна директория',
+            cmd: 'pwd',
+            note: 'Print Working Directory – пълен път до папката.'
+          },
+          {
+            desc: 'Подробен списък с файлове (вкл. скрити файлове)',
+            cmd: 'ls -lah',
+            note: '-l (дълъг формат), -a (всички), -h (четими размери).'
+          },
+          {
+            desc: 'Създаване на директории и липсващи родителски папки',
+            cmd: 'mkdir -p path/to/new/folder',
+            note: '-p създава цялото дърво от директории без грешка.'
+          },
+          {
+            desc: 'Принудително рекурсивно изтриване на файл или папка',
+            cmd: 'rm -rf <file-or-dir>',
+            note: 'Внимание: изтрива перманентно без потвърждение.'
+          },
+          {
+            desc: 'Копиране на папка заедно с цялото съдържание',
+            cmd: 'cp -r source/ destination/',
+            note: '-r обозначава рекурсивно копиране.'
+          },
+          {
+            desc: 'Преместване или преименуване на файл/папка',
+            cmd: 'mv old_name new_name',
+            note: 'Служи както за преместване, така и за преименуване.'
+          }
+        ]
+      },
+      {
+        category: 'linux',
+        group: 'Преглед & Търсене в файлове',
+        commands: [
+          {
+            desc: 'Преглед на съдържанието на файл',
+            cmd: 'cat <filename>',
+            note: 'Извежда цялото съдържание директно в терминала.'
+          },
+          {
+            desc: 'Следене на логове в реално време',
+            cmd: 'tail -f <log-file>',
+            note: 'Автоматично показва новопостъпващите редове в лога.'
+          },
+          {
+            desc: 'Рекурсивно търсене на текст във файлове',
+            cmd: 'grep -rn "търсен_текст" .',
+            note: '-r (рекурсивно), -n (номер на реда). Изключително полезно!'
+          },
+          {
+            desc: 'Търсене на файлове по име в системата',
+            cmd: 'find . -name "*.js"',
+            note: 'Намира всички файлове със съответното разширение/шаблон.'
+          }
+        ]
+      },
+      {
+        category: 'linux',
+        group: 'Права за достъп & Собственост',
+        commands: [
+          {
+            desc: 'Правене на файл изпълним (execute permission)',
+            cmd: 'chmod +x <script.sh>',
+            note: 'Позволява стартирането на bash/python скриптове.'
+          },
+          {
+            desc: 'Стандартни права за уеб папки (755)',
+            cmd: 'chmod -R 755 <directory>',
+            note: 'Собственикът чете/пише/изпълнява, останалите само четат.'
+          },
+          {
+            desc: 'Промяна на собственика и групата на папка',
+            cmd: 'chown -R www-data:www-data /var/www/html',
+            note: 'Често се ползва за права при уеб сървъри (Nginx/Apache).'
+          }
+        ]
+      },
+      {
+        category: 'linux',
+        group: 'Процеси, Памет & Системни ресурси',
+        commands: [
+          {
+            desc: 'Интерактивен мониторинг на процеси и ресурси',
+            cmd: 'htop',
+            note: 'Цветен и удобен мениджър на процеси (алтернатива: top).'
+          },
+          {
+            desc: 'Намиране на работещ процес по име',
+            cmd: 'ps aux | grep <process_name>',
+            note: 'Показва PID (Process ID) номера на процеса.'
+          },
+          {
+            desc: 'Принудително спиране на процес по PID',
+            cmd: 'kill -9 <PID>',
+            note: 'Изпраща SIGKILL сигнал за моментално терминиране.'
+          },
+          {
+            desc: 'Проверка на свободното дисково пространство',
+            cmd: 'df -h',
+            note: '-h форматира размерите в GB / MB.'
+          },
+          {
+            desc: 'Проверка на използваната RAM памет',
+            cmd: 'free -m',
+            note: 'Показва свободната и заета памет в мегабайти.'
+          }
+        ]
+      },
+      {
+        category: 'linux',
+        group: 'Мрежа, Портове & Сървърни услуги',
+        commands: [
+          {
+            desc: 'Проверка на отворените портове и процесите им',
+            cmd: 'ss -tulpn',
+            note: 'Модерна и бърза алтернатива на старата команда netstat.'
+          },
+          {
+            desc: 'Изпращане на HTTP заявка и инспектиране на хедъри',
+            cmd: 'curl -I https://example.com',
+            note: '-I връща само HTTP отговора и статус кода.'
+          },
+          {
+            desc: 'Свързване чрез защитен SSH шел към отдалечен сървър',
+            cmd: 'ssh username@server_ip',
+            note: 'Може да подадете ключ с параметър -i ~/.ssh/id_rsa.'
+          },
+          {
+            desc: 'Рестартиране на системна услуга (systemd)',
+            cmd: 'sudo systemctl restart nginx',
+            note: 'Други опции: status, start, stop, enable.'
+          },
+          {
+            desc: 'Проверка на логовете на конкретна услуга',
+            cmd: 'journalctl -u nginx -f',
+            note: 'Показва логовете на услугата в реално време.'
+          }
+        ]
+      },
+      {
+        category: 'linux',
+        group: 'Архивиране & Компресия',
+        commands: [
+          {
+            desc: 'Създаване на компресиран .tar.gz архив',
+            cmd: 'tar -czvf archive.tar.gz folder/',
+            note: '-c (създай), -z (gzip), -v (подробно), -f (файл).'
+          },
+          {
+            desc: 'Разархивиране на .tar.gz архив',
+            cmd: 'tar -xzvf archive.tar.gz',
+            note: '-x (извлечи).'
+          },
+          {
+            desc: 'Разархивиране на стандартен .zip файл',
+            cmd: 'unzip archive.zip -d target_dir/',
+            note: '-d задава целевата папка.'
+          }
+        ]
+      }
+    ];
+
+    // Current State
+    let currentCategory = 'git';
+    let searchQuery = '';
+
+    // Initialize counts
+    function updateCounts() {
+      let gitCount = 0;
+      let linuxCount = 0;
+
+      cheatsheetData.forEach(group => {
+        if (group.category === 'git') gitCount += group.commands.length;
+        if (group.category === 'linux') linuxCount += group.commands.length;
+      });
+
+      document.getElementById('count-git').textContent = gitCount;
+      document.getElementById('count-linux').textContent = linuxCount;
+      document.getElementById('count-all').textContent = gitCount + linuxCount;
+    }
+
+    // Render Cards
+    function renderCheatsheets() {
+      const container = document.getElementById('cheatsheets-container');
+      const noResults = document.getElementById('no-results');
+      container.innerHTML = '';
+
+      let totalVisible = 0;
+
+      cheatsheetData.forEach(section => {
+        // Filter by category
+        if (currentCategory !== 'all' && section.category !== currentCategory) {
+          return;
+        }
+
+        // Filter by search query
+        const filteredCommands = section.commands.filter(item => {
+          if (!searchQuery) return true;
+          const q = searchQuery.toLowerCase();
+          return item.desc.toLowerCase().includes(q) ||
+                 item.cmd.toLowerCase().includes(q) ||
+                 (item.note && item.note.toLowerCase().includes(q)) ||
+                 section.group.toLowerCase().includes(q);
+        });
+
+        if (filteredCommands.length === 0) return;
+
+        totalVisible += filteredCommands.length;
+
+        // Create Section Element
+        const sectionElem = document.createElement('section');
+        sectionElem.innerHTML = `
+          <h2 class="section-title">
+            <span>${section.group}</span>
+            <span class="section-pill">${filteredCommands.length}</span>
+          </h2>
+          <div class="grid"></div>
+        `;
+
+        const gridElem = sectionElem.querySelector('.grid');
+
+        filteredCommands.forEach(item => {
+          const card = document.createElement('div');
+          card.className = `card ${section.category}`;
+          
+          const tagClass = section.category === 'git' ? 'tag-git' : 'tag-linux';
+          const tagLabel = section.category === 'git' ? 'GIT' : 'LINUX';
+
+          // Escape HTML for safe display
+          const safeCmd = escapeHtml(item.cmd);
+
+          card.innerHTML = `
+            <div>
+              <div class="card-header">
+                <span class="card-desc">${escapeHtml(item.desc)}</span>
+                <span class="card-tag ${tagClass}">${tagLabel}</span>
+              </div>
+            </div>
+            <div>
+              <div class="code-container">
+                <code class="code-text">${safeCmd}</code>
+                <button class="copy-btn" onclick="copyCode(this, '${escapeForAttribute(item.cmd)}')" title="Копирай командата">
+                  <span>📋</span>
+                  <span>Копирай</span>
+                </button>
+              </div>
+              ${item.note ? `<div class="card-note">${escapeHtml(item.note)}</div>` : ''}
+            </div>
+          `;
+
+          gridElem.appendChild(card);
+        });
+
+        container.appendChild(sectionElem);
+      });
+
+      if (totalVisible === 0) {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
+
+    // Switch Category Tab
+    function switchCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const activeBtn = document.getElementById(`tab-${cat}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      renderCheatsheets();
+    }
+
+    // Copy to Clipboard
+    function copyCode(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        // UI feedback on button
+        const originalHtml = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<span>✓</span><span>Копирано!</span>';
+
+        showToast(`Копирано: ${text}`);
+
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = originalHtml;
+        }, 1800);
+      }).catch(err => {
+        console.error('Неуспешно копиране:', err);
+      });
+    }
+
+    // Show Toast
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.textContent = message;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Utilities
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeForAttribute(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCounts();
+      renderCheatsheets();
+
+      const searchInput = document.getElementById('search-input');
+      
+      // Real-time search
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        renderCheatsheets();
+      });
+
+      // Keyboard Shortcut '/' or 'Ctrl+K' to focus search
+      document.addEventListener('keydown', (e) => {
+        if ((e.key === '/' || (e.ctrlKey && e.key.toLowerCase() === 'k')) && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+        } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+          searchInput.value = '';
+          searchQuery = '';
+          searchInput.blur();
+          renderCheatsheets();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
